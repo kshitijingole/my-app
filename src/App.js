@@ -1,26 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
-import { useRef } from 'react';
+import { useState } from 'react';
 
 function App() {
-  const textTitle = useRef();
-  const hexColor = useRef();
+  const [title, setTitle] = useState("");
+  const [color, setColor] = useState("#000000")
 
-  console.log(textTitle);
-  console.log(hexColor);
 
   const submit = (e) => {
     e.preventDefault();
-    const title = textTitle.current.value;
-    const color = hexColor.current.value;
     alert(`${title}, ${color}`);
+    setTitle(""); // initialize to default
+    setColor("#000000"); // initialize to default
   };
 
   return (
     <div className="App">
       <form onSubmit={submit}>
-        <input type="text" ref={textTitle} placeholder="Colour Text .."></input>
-        <input type="color" ref={hexColor}></input>
+        <input 
+        type="text" 
+        value={title} 
+        placeholder="Colour Text .."
+        onChange={(event => setTitle(event.target.value))}></input>
+        <input 
+        type="color" 
+        value={color}
+        onChange={(event) => setColor(event.target.value)}></input>
         <button>Add color</button>
       </form>
     </div>
