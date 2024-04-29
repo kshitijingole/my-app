@@ -1,33 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
-  const [title, setTitle] = useState("");
-  const [color, setColor] = useState("#000000")
-
-
-  const submit = (e) => {
-    e.preventDefault();
-    alert(`${title}, ${color}`);
-    setTitle(""); // initialize to default
-    setColor("#000000"); // initialize to default
-  };
+  const[data, setData] = useState(null);
+  useEffect(() => {
+    fetch(
+      `https://api.github.com/users/moonhighway`
+    ).then((response) => response.json())
+    .then(setData);
+  }, []);
+  if(data) return(<pre>{JSON.stringify(data, null, 2)}</pre>);
 
   return (
     <div className="App">
-      <form onSubmit={submit}>
-        <input 
-        type="text" 
-        value={title} 
-        placeholder="Colour Text .."
-        onChange={(event => setTitle(event.target.value))}></input>
-        <input 
-        type="color" 
-        value={color}
-        onChange={(event) => setColor(event.target.value)}></input>
-        <button>Add color</button>
-      </form>
+      <h1>Displaying Data</h1>
     </div>
   );
 }
