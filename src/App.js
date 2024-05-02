@@ -20,14 +20,15 @@ const query =`query{
 
 const opts = {
   method: "POST",
-  header: {"Content-Type" : "application/json"},
-  body: JSON.stringify({query})
+  header: {"Content-Type" : "application/json",
+mode: "no-cors"}
 }
 
-function Lift({name, elevationGain, status}) {
+function Repairer({title, vendorType, address}) {
   return (<div>
-    <h3>{name}</h3>
-    <h4>{elevationGain} {status}</h4>
+    <h3>{title}</h3>
+    <h4>{vendorType}</h4>
+    <h4>{address}</h4>
   </div>
   );
 }
@@ -39,7 +40,7 @@ function App() {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `https://snowtooth.moonhighway.com/`, //GraphQL Endpoint
+      `https://www.suncorp.com.au/graphql/execute.json/suncorp/choice_repairer_nofilter`, //GraphQL Endpoint
       opts 
     )
     .then((response) => response.json())
@@ -53,9 +54,11 @@ function App() {
   if(!data) return null;
     return (
     <div>
-      {data.data.allLifts.map(lift => 
-      <Lift elevationGain={lift.elevationGain}
-      status={lift.status}/>
+      {data.choiceRepairerList.items.map(repairerList => 
+      <Repairer 
+      name={repairerList.name}
+      vendorType={repairerList.vendorType}
+      address={repairerList.address}/>
       )}
     </div>
     )
